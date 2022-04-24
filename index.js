@@ -27,7 +27,8 @@ const nomi = new Map([
     ['viel', '520618885347672067'],
     ['paolo', '148820380650307585'],
     ['giovanni giorgio', '896374527620182036'],
-  ]);
+  ]),
+  cmd = "'";
 
 //Help Message
 const helpMessage = `
@@ -52,17 +53,17 @@ const helpMessage = `
     Bot creato da <@428651109712789524> e <@764083440466657280>
     I comandi NON sono case-sensitive  :wink:
 
-    **v1.0.0**
+    **v1.0.1**
 
     `
 
 //Commands
 client.on('messageCreate', async message => {
     if(message.channelId == textChannelCommands && message.author.id != botID){
-        if(message.content.toLowerCase().match("/help")){                       //Help Message
+        if(message.content.toLowerCase().match(cmd + "help")){                       //Help Message
             message.reply(helpMessage);
             
-        } else if(message.content.toLowerCase().startsWith("/setpunish ")){     //Set Punish
+        } else if(message.content.toLowerCase().startsWith(cmd + "setpunish ")){     //Set Punish
             newState = message.content.substring(11).toLowerCase();
             if(newState == "on"){
                 active = true;
@@ -74,10 +75,10 @@ client.on('messageCreate', async message => {
                 message.reply("Il valore dopo '/setPunish' può essere solo 'on' o 'off'");
             }
 
-        } else if(message.content.toLowerCase().match("/getpunish")){           //Get Punish Status 
+        } else if(message.content.toLowerCase().match(cmd + "getpunish")){           //Get Punish Status 
             message.reply("Status:\t".concat((active) ? ":white_check_mark:" : ":x:"));
 
-        } else if(message.content.toLowerCase().match("/getbambini")){          //Get Bambini by ID
+        } else if(message.content.toLowerCase().match(cmd + "getbambini")){          //Get Bambini by ID
             if(bambini.length == 0){
                 message.reply("La lista è ancora vuota...\nRimediamo?");
             } else {
@@ -94,7 +95,7 @@ client.on('messageCreate', async message => {
                 message.reply(listaNomi);
             }
 
-        } else if(message.content.toLowerCase().startsWith("/addbambino ")){    //Add Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "addbambino ")){    //Add Bambino
             const bambinoID = message.content.substring(12);
 
             if(bambini.includes(bambinoID)){
@@ -112,7 +113,7 @@ client.on('messageCreate', async message => {
                     }
                 })
             }
-        } else if(message.content.toLowerCase().startsWith("/removebambino ")){ //Remove Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "removebambino ")){ //Remove Bambino
             const bambinoID = message.content.substring(15);
 
             if(bambini.includes(bambinoID)){
@@ -127,11 +128,11 @@ client.on('messageCreate', async message => {
                 message.reply("Non trovo il moccioso");
             }
 
-        } else if(message.content.toLowerCase().match("/flush")){               //Flush Bambini
+        } else if(message.content.toLowerCase().match(cmd + "flush")){               //Flush Bambini
             bambini = [];
             message.reply("**Suono Sciacquone**");
 
-        } else if(message.content.toLowerCase().match("/getnomi")){             //Get Nomi (Map)
+        } else if(message.content.toLowerCase().match(cmd + "getnomi")){             //Get Nomi (Map)
             var text = "*Nomi*:\n ";
 
             for (var [key, value] of nomi.entries()) {
