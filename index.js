@@ -53,7 +53,7 @@ const helpMessage = `
     Bot creato da <@428651109712789524> e <@764083440466657280>
     I comandi NON sono case-sensitive  :wink:
 
-    **v1.0.3**
+    **v1.0.4**
 
     `
 
@@ -133,6 +133,8 @@ client.on('messageCreate', async message => {
                             }
                         });
                         message.reply("Bambino rimosso");
+                    } else {
+                        message.reply("Non trovo il moccioso");
                     }
                 } else {
                     message.reply("Non trovo il moccioso");
