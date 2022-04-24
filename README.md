@@ -5,16 +5,21 @@
 Dovresti settare le variabili nel file .env:
 
 ```javascript
-TOKEN=      //token bot
-IDBAMBINO=  //id utente da punire
-GENERALE=   //id canale testuale generale
-COMMANDS=   //id canale testuale comandi
-PUNIZIONE=  //id canale vocale punizione
+TOKEN=      //Token bot
+BOTID=      //ID bot
+COMMANDS=   //ID canale testuale comandi
+PUNIZIONE=  //ID canale vocale punizione
 ```
 
 * ### Comandi
 
-/help
-/setPunish on
-/setPunish off
-/getPunish
+    \`/help\`           - Lista comandi
+    \`/getnomi\`        - Mostra nomi disponibili
+    \`/setPunish on\`   - Attiva punizione
+    \`/setPunish off\`  - Disattiva punizione
+    \`/getpunish \`     - Mostra stato punizione
+    \`/getbambini \`    - Ritorna lista bambini
+    \`/addbambino \`    - Aggiunge un bambino per nome o ID
+    \`/removebambino \` - Rimuove un bambino
+    \`/flush \`         - Getta bambini nel cesso
+    \`/setbambini \`    - Imposta lista bambini
