@@ -14,4 +14,7 @@ PUNIZIONE=  //id canale vocale punizione
 
 * ### Comandi
 
-Per ora è disponibile solo il comando '/counter', che permette di settare il counter delle punizioni;
+/help
+/setPunish on
+/setPunish off
+/getPunish
