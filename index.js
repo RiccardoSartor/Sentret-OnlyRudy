@@ -1,17 +1,23 @@
 require('dotenv').config();
-const Discord = require('discord.js');
-const bot = new Discord.Client();
-const TOKEN = process.env.TOKEN;
+const { Client, Intents } = require('discord.js');
+const token = process.env.TOKEN;
+const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-bot.login(TOKEN);
-
-bot.on('ready', () => {
-  console.info(`Logged in as ${bot.user.tag}!`);
+// When the client is ready, run this code (only once)
+client.once('ready', () => {
+	console.log('Ready!');
 });
 
-bot.on('message', msg => {
-  let message = msg.content.toLocaleLowerCase();
-  if (message.includes('ping')) {
-    msg.reply('pong');
-  }
+client.on('voiceStateUpdate', (oldState, newState) => {
+  if(newState.channelID === null) //left
+      console.log('user left channel', oldState.channelID);
+  else if(oldState.channelID === null) // joined
+      console.log('user joined channel', newState.channelID);
+  else // moved
+      console.log('user moved channels', oldState.channelID, newState.channelID);
 });
+
+
+
+// Login to Discord with your client's token
+client.login(token);
