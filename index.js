@@ -153,7 +153,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 
         console.log("\nid:" + newState.member.user.id + "\tmembers: " + channel.members.size)
 
-        if( channel.name != "Punizione" && bambini.includes(newState.member.user.id) && channel.members.size > 1 && active){
+        if( channel.name != "todoverto" && bambini.includes(newState.member.user.id) && channel.members.size > 1 && active){
             newState.member.voice.setChannel(await client.channels.fetch(voiceChannelPunizione));
         }
 
