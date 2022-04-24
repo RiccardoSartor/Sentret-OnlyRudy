@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 //Client config
-const { Client, Intents, Message } = require('discord.js');
+const { Client, Intents, Message, Emoji } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
 
 //Dotenv imports
@@ -14,17 +14,37 @@ const
         voiceChannelPunizione = process.env.PUNIZIONE;
 
 //Counter
-let counter = 0;
+let active = false;
+
+//Help Message
+const helpMessage = `
+
+    **Commands**
+    \`/punizione on\` - Attiva punizione
+    \`/punizione off\` - Disattiva punizione
+    `
 
 //Commands
 client.on('messageCreate', async message => {
     if(message.channelId == textChannelCommands){
-        if(message.content.startsWith("/counter ")){
+        if(message.content.match("/help")){
+            message.reply(helpMessage);
+        } else if(message.content.startsWith("/setPunish ")){
             
-            newCounter = message.content.substring(9);
-            if(!isNaN(parseInt(newCounter))){
-                counter = newCounter;
+            newState = message.content.substring(11);
+            if(newState == "on"){
+                active = true;
+                message.reply("Punizione attivata");
+            } else if(newState == "off"){
+                active = false;
+                message.reply("Punizione disattivata");
+            } else {
+                message.reply("Il valore dopo '/setPunish' può essere solo true o false");
             }
+        } else if(message.content.match("/getPunish")){
+            
+            message.reply("Status:\t".concat((active) ? ":white_check_mark:" : ":x:"));
+
         }
     };
 })
@@ -38,10 +58,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 
         console.log("\nid:" + newState.member.user.id + "\tmembers: " + channel.members.size)
 
-        if(newState.member.user.id == bambino && channel.members.size > 1 && counter > 0){
+        if(newState.member.user.id == bambino && channel.members.size > 1 && active){
             newState.member.voice.setChannel(await client.channels.fetch(voiceChannelPunizione));
-            counter--;
-            console.log(counter);
         }
 
     } else if(oldState.channelId == null && newState.channelId != null){    // Joinato

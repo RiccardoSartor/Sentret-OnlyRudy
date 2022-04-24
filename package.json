@@ -8,7 +8,7 @@
     "start":"node index.js",
     "dev": "nodemon index.js"
   },
-  "author": "",
+  "author": "Sarti & Blvk",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.6.0",
