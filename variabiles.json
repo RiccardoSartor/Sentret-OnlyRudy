@@ -2,7 +2,8 @@
     "id":{
         "channels":{
             "generale": "948181324412366879",
-            "musica": "968171818265501726"
+            "musica": "968171818265501726",
+            "punizione": "967898468435763240"
         },
 
         "bot":{
@@ -39,5 +40,6 @@
             "creare un interfaccia",
             "romania.org"
         ]
-    }
+    },
+    "triggherChar": "'"
 }

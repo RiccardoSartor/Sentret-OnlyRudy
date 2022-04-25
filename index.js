@@ -1,6 +1,9 @@
 //Dotenv config
 require('dotenv').config();
 
+//variabiles config
+const variabiles = require('./variabiles.json');
+
 //Client config
 const { Client, Intents, Message, Emoji } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
@@ -9,11 +12,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILD_VOICE_STATES, Intents.
 const 
         token = process.env.TOKEN,
         botID = process.env.BOTID,
-        textChannelCommands = process.env.COMMANDS,
-        voiceChannelPunizione = process.env.PUNIZIONE;
-        canaleGenerale = '948181324412366879'
-        canaleMusica = '968171818265501726'
-        musicBotid = '614109280508968980'
+        textChannelCommands = process.env.COMMANDS
 
 //Utils
 let active = false, bambini = [];
@@ -31,15 +30,8 @@ const nomi = new Map([
     ['paolo', '148820380650307585'],
     ['giovanni giorgio', '896374527620182036'],
   ]),
-  cmd = "'";
+  cmd = variabiles.triggherChar;
 
-
-  //trusted users (users che hanno accesso a comandi di livello superiore (es. setbambino))
-trustedUsers = [
-    '764083440466657280',  //adam
-    '896374527620182036',  //giovanni giorgio
-    '428651109712789524',  //sartor
-];
 
 //Help Message
 const helpMessage = `
@@ -68,24 +60,13 @@ const helpMessage = `
 
     `
 
-//states
-avaibleStates = [
-    'inculare cip',
-    'mangiare la banana',
-    'menare gli strumentopoli',
-    '200 euro in shiba',
-    'creare un interfaccia',
-    'romania.org',
-]
-
-
 //Commands
 client.on('messageCreate', async message => {
-    if(message.author.id != botID){
+    if(message.author.id != variabiles.id.bot.rudy){
         if(message.content.toLowerCase().match(cmd + "help")){                       //Help Message
             message.reply(helpMessage);
             
-        } else if(message.content.toLowerCase().startsWith(cmd + "setpunish ") && trustedUsers.indexOf(message.author.id) > -1){     //Set Punish
+        } else if(message.content.toLowerCase().startsWith(cmd + "setpunish ") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){     //Set Punish
             newState = message.content.substring(11).toLowerCase();
             if(newState == "on"){
                 active = true;
@@ -97,10 +78,10 @@ client.on('messageCreate', async message => {
                 message.reply("Il valore dopo '/setPunish' può essere solo 'on' o 'off'");
             }
 
-        } else if(message.content.toLowerCase().match(cmd + "getpunish") && trustedUsers.indexOf(message.author.id) > -1){           //Get Punish Status 
+        } else if(message.content.toLowerCase().match(cmd + "getpunish") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){           //Get Punish Status 
             message.reply("Status:\t".concat((active) ? ":white_check_mark:" : ":x:"));
 
-        } else if(message.content.toLowerCase().match(cmd + "getbambini") && trustedUsers.indexOf(message.author.id) > -1){          //Get Bambini by ID
+        } else if(message.content.toLowerCase().match(cmd + "getbambini") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){          //Get Bambini by ID
             if(bambini.length == 0){
                 message.reply("La lista è ancora vuota...\nRimediamo?");
             } else {
@@ -117,7 +98,7 @@ client.on('messageCreate', async message => {
                 message.reply(listaNomi);
             }
 
-        } else if(message.content.toLowerCase().startsWith(cmd + "addbambino ") && trustedUsers.indexOf(message.author.id) > -1){    //Add Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "addbambino ") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){    //Add Bambino
             const bambinoID = message.content.substring(12);
 
             if(bambini.includes(bambinoID)){
@@ -135,7 +116,7 @@ client.on('messageCreate', async message => {
                     }
                 })
             }
-        } else if(message.content.toLowerCase().startsWith(cmd + "removebambino ") && trustedUsers.indexOf(message.author.id) > -1){ //Remove Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "removebambino ") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){ //Remove Bambino
             const bambinoID = message.content.substring(15);
 
             if(bambini.includes(bambinoID)){
@@ -163,7 +144,7 @@ client.on('messageCreate', async message => {
                 }
             }
 
-        } else if(message.content.toLowerCase().match(cmd + "flush") && trustedUsers.indexOf(message.author.id) > -1){               //Flush Bambini
+        } else if(message.content.toLowerCase().match(cmd + "flush") && variabiles.id.trustedUsers.indexOf(message.author.id) > -1){               //Flush Bambini
             bambini = [];
             message.reply("**Suono Sciacquone**");
 
@@ -176,10 +157,10 @@ client.on('messageCreate', async message => {
 
             message.reply(text);
 
-        } else if(message.content.toLowerCase().includes("ch!") && message.channelId != canaleMusica){  //previene invio messaggi per bot della musica nella chat generale
+        } else if(message.content.toLowerCase().includes("ch!") && message.channelId != variabiles.id.channels.musica){  //previene invio messaggi per bot della musica nella chat generale
             message.delete()
             message.author.send('Usa il canale appostito per la musica. PORCODDIO')
-        }else if(message.channelId != canaleMusica && message.author.id==musicBotid){
+        }else if(message.channelId != variabiles.id.channels.musica && message.author.id==variabiles.id.bot.musica){
             message.delete()
         }
     };
@@ -209,9 +190,9 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity(avaibleStates[Math.floor(Math.random()*avaibleStates.length)])
+    client.user.setActivity(variabiles.states.botAvaibleStates[Math.floor(Math.random()*variabiles.states.botAvaibleStates.length)])
     setInterval(function() {
-        client.user.setActivity(avaibleStates[Math.floor(Math.random()*avaibleStates.length)])
+        client.user.setActivity(variabiles.states.botAvaibleStates[Math.floor(Math.random()*variabiles.states.botAvaibleStates.length)])
         console.log('ho cambiato lo stato del bot')
     }, 600000); //cambia lo stato del bot ogni 10 minuti
 });
