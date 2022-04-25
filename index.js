@@ -75,6 +75,7 @@ avaibleStates = [
     'romania.org',
 ]
 
+
 //Commands
 client.on('messageCreate', async message => {
     if(message.author.id != botID){
@@ -172,6 +173,9 @@ client.on('messageCreate', async message => {
 
             message.reply(text);
 
+        } else if(message.content.toLowerCase().match(cmd + "invia") && message.channelId == '967182497395900499'){  //previene invio messaggi per bot della musica nella chat generale
+            message.delete()
+            message.author.send('Usa il canale appostito per la musica. PORCODDIO')
         }
     };
 })
