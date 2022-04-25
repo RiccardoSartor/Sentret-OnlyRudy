@@ -11,6 +11,9 @@ const
         botID = process.env.BOTID,
         textChannelCommands = process.env.COMMANDS,
         voiceChannelPunizione = process.env.PUNIZIONE;
+        canaleGenerale = '948181324412366879'
+        canaleMusica = '968171818265501726'
+        musicBotid = '614109280508968980'
 
 //Utils
 let active = false, bambini = [];
@@ -173,9 +176,11 @@ client.on('messageCreate', async message => {
 
             message.reply(text);
 
-        } else if(message.content.toLowerCase().match(cmd + "invia") && message.channelId == '967182497395900499'){  //previene invio messaggi per bot della musica nella chat generale
+        } else if(message.content.toLowerCase().includes("ch!") && message.channelId != canaleMusica){  //previene invio messaggi per bot della musica nella chat generale
             message.delete()
             message.author.send('Usa il canale appostito per la musica. PORCODDIO')
+        }else if(message.channelId != canaleMusica && message.author.id==musicBotid){
+            message.delete()
         }
     };
 })
