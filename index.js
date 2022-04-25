@@ -64,6 +64,7 @@ avaibleStates = [
     'menare gli strumentopoli',
     '200 euro in shiba',
     'creare un interfaccia',
+    'romania.org',
 ]
 
 //Commands
