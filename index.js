@@ -1,16 +1,30 @@
 //Dotenv config
 require('dotenv').config();
+const nontest = require('./variabiles.json');
+const test = require('./testvariabiles.json');
+const token_nontest = process.env.TOKEN
+const token_test = process.env.TESTTOKEN
+let variabiles;
+let token;
 
-//variabiles config
-const variabiles = require('./variabiles.json');
+//determinate what type of system is running
+os = require('os');
+if(os.platform() == 'linux'){
+    variabiles = nontest;
+    token = token_nontest
+}else{
+    variabiles = test;
+    token = token_test
+}
 
 //Client config
 const { Client, Intents, Message, Emoji } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [
+    Intents.FLAGS.GUILD_VOICE_STATES, 
+    Intents.FLAGS.GUILD_MESSAGES, 
+    Intents.FLAGS.GUILDS] 
+});
 
-//Dotenv imports
-const 
-        token = process.env.TOKEN
 
 //Utils
 let active = false, bambini = [];
@@ -27,8 +41,8 @@ const nomi = new Map([
     ['viel', '520618885347672067'],
     ['paolo', '148820380650307585'],
     ['giovanni giorgio', '896374527620182036'],
-  ]),
-  cmd = variabiles.triggherChar;
+  ])
+const cmd = variabiles.triggherChar;
 
 
 //Help Message
