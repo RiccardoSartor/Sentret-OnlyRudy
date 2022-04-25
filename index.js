@@ -10,9 +10,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILD_VOICE_STATES, Intents.
 
 //Dotenv imports
 const 
-        token = process.env.TOKEN,
-        botID = process.env.BOTID,
-        textChannelCommands = process.env.COMMANDS
+        token = process.env.TOKEN
 
 //Utils
 let active = false, bambini = [];
@@ -174,7 +172,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         const channel = await client.channels.fetch(newState.channelId);
 
         if( channel.name != "todoverto" && bambini.includes(newState.member.user.id) && channel.members.size > 1 && active){
-            newState.member.voice.setChannel(await client.channels.fetch(voiceChannelPunizione));
+            newState.member.voice.setChannel(await client.channels.fetch(variabiles.id.channels.punizione));
         }
 
     } else if(oldState.channelId == null && newState.channelId != null){    // Joinato
