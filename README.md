@@ -6,10 +6,9 @@ Dovresti settare le variabili nel file .env:
 
 ```javascript
 TOKEN=      //Token bot
-BOTID=      //ID bot
-COMMANDS=   //ID canale testuale comandi
-PUNIZIONE=  //ID canale vocale punizione
 ```
+
+Dovresti anche settare le variabili nel tuo file variabiles.json
 
 * ### Lista Comandi
 
