@@ -57,6 +57,15 @@ const helpMessage = `
 
     `
 
+//states
+avaibleStates = [
+    'inculare cip',
+    'mangiare la banana',
+    'menare gli strumentopoli',
+    '200 euro in shiba',
+    'creare un interfaccia',
+]
+
 //Commands
 client.on('messageCreate', async message => {
     if(message.channelId == textChannelCommands && message.author.id != botID){
@@ -165,8 +174,6 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         
         const channel = await client.channels.fetch(newState.channelId);
 
-        console.log("\nid:" + newState.member.user.id + "\tmembers: " + channel.members.size)
-
         if( channel.name != "todoverto" && bambini.includes(newState.member.user.id) && channel.members.size > 1 && active){
             newState.member.voice.setChannel(await client.channels.fetch(voiceChannelPunizione));
         }
@@ -183,8 +190,15 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 
 // When the client is ready, run this code (only once)
 client.once('ready', async () => {
-	console.log('Ready!');
+	console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity(avaibleStates[Math.floor(Math.random()*avaibleStates.length)])
+    setInterval(function() {
+        client.user.setActivity(avaibleStates[Math.floor(Math.random()*avaibleStates.length)])
+        console.log('ho cambiato lo stato del bot')
+    }, 600000); //cambia lo stato del bot ogni 10 minuti
 });
 
 // Login to Discord with your client's token
 client.login(token);
+
+ 
