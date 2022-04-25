@@ -30,6 +30,14 @@ const nomi = new Map([
   ]),
   cmd = "'";
 
+
+  //trusted users (users che hanno accesso a comandi di livello superiore (es. setbambino))
+trustedUsers = [
+    '764083440466657280',  //adam
+    '896374527620182036',  //giovanni giorgio
+    '428651109712789524',  //sartor
+];
+
 //Help Message
 const helpMessage = `
 
@@ -69,11 +77,11 @@ avaibleStates = [
 
 //Commands
 client.on('messageCreate', async message => {
-    if(message.channelId == textChannelCommands && message.author.id != botID){
+    if(message.author.id != botID){
         if(message.content.toLowerCase().match(cmd + "help")){                       //Help Message
             message.reply(helpMessage);
             
-        } else if(message.content.toLowerCase().startsWith(cmd + "setpunish ")){     //Set Punish
+        } else if(message.content.toLowerCase().startsWith(cmd + "setpunish ") && trustedUsers.indexOf(message.author.id) > -1){     //Set Punish
             newState = message.content.substring(11).toLowerCase();
             if(newState == "on"){
                 active = true;
@@ -85,10 +93,10 @@ client.on('messageCreate', async message => {
                 message.reply("Il valore dopo '/setPunish' può essere solo 'on' o 'off'");
             }
 
-        } else if(message.content.toLowerCase().match(cmd + "getpunish")){           //Get Punish Status 
+        } else if(message.content.toLowerCase().match(cmd + "getpunish") && trustedUsers.indexOf(message.author.id) > -1){           //Get Punish Status 
             message.reply("Status:\t".concat((active) ? ":white_check_mark:" : ":x:"));
 
-        } else if(message.content.toLowerCase().match(cmd + "getbambini")){          //Get Bambini by ID
+        } else if(message.content.toLowerCase().match(cmd + "getbambini") && trustedUsers.indexOf(message.author.id) > -1){          //Get Bambini by ID
             if(bambini.length == 0){
                 message.reply("La lista è ancora vuota...\nRimediamo?");
             } else {
@@ -105,7 +113,7 @@ client.on('messageCreate', async message => {
                 message.reply(listaNomi);
             }
 
-        } else if(message.content.toLowerCase().startsWith(cmd + "addbambino ")){    //Add Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "addbambino ") && trustedUsers.indexOf(message.author.id) > -1){    //Add Bambino
             const bambinoID = message.content.substring(12);
 
             if(bambini.includes(bambinoID)){
@@ -123,7 +131,7 @@ client.on('messageCreate', async message => {
                     }
                 })
             }
-        } else if(message.content.toLowerCase().startsWith(cmd + "removebambino ")){ //Remove Bambino
+        } else if(message.content.toLowerCase().startsWith(cmd + "removebambino ") && trustedUsers.indexOf(message.author.id) > -1){ //Remove Bambino
             const bambinoID = message.content.substring(15);
 
             if(bambini.includes(bambinoID)){
@@ -151,7 +159,7 @@ client.on('messageCreate', async message => {
                 }
             }
 
-        } else if(message.content.toLowerCase().match(cmd + "flush")){               //Flush Bambini
+        } else if(message.content.toLowerCase().match(cmd + "flush") && trustedUsers.indexOf(message.author.id) > -1){               //Flush Bambini
             bambini = [];
             message.reply("**Suono Sciacquone**");
 
